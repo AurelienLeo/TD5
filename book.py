@@ -7,19 +7,49 @@ class Book:
 
     def insert_buy(self,qtty,price):
         self.count_order += 1
-        self.list.append(Order(true,qtty,price,self.count_order))
-        print(Order(true,qtty,price,self.count_order))
-        self.list_buy=sorted(self.list_buy,key=lambda x:x.price)
-        #self.list_buy=sorted(sorted(self.list_buy, key=lambda x:x.id),key=lambda x:x.price)
-
+        self.list_buy.append(Order(True,qtty,price,self.count_order))
+        self.list_buy=sorted(sorted(self.list_buy, key=lambda x:x.id),key=lambda x:x.price, reverse = True)
+        for i in self.list_sell:
+            print(i)
         for i in self.list_buy:
             print(i)
+        print("----------------------")
+
    
             
     def insert_sell(self,qtty,price):
         self.count_order += 1
-        self.list_sell.append(Order(false,qtty,price,self.count_order))
-        self.list_sell = sorted(sorted(self.list_sell, key=lambda x:x.id),key=lambda x:x.price)
+        temp_qtty = qtty
+        possible = False
+        for i in self.list_buy:
+            if price >= i.price:
+                if temp_qtty >= i.qtty:
+                    temp_qtty - i.qtty
+                else:
+                    possible = True
+                    break
+        if possible:
+            for i in self.list_buy:
+                if price>=i.price:
+                    if temp_qtty > i.qtty:
+                        temp_qtty-i.qtty
+                        print("Execute " + str(qtty-temp_qtty) + " at " + str(i.price) + " on " + self.name)
+                        self.list_buy.pop(i)
+                    else:
+                        i.qtty -= temp_qtty
+                        print("Execute " + str(temp_qtty)+" at "+str(price)+" on "+self.name)
+                        break
+        if not possible:
+            self.list_sell.append(Order(False,qtty,price,self.count_order))
+        self.list_sell=sorted(sorted(self.list_sell, key=lambda x:x.id),key=lambda x:x.price, reverse = True)
+        for i in self.list_sell:
+            print(i)
+        for i in self.list_buy:
+            print(i)
+        print("----------------------")
+
+
+
 
 class Order:
     def __init__(self,buy,qtty,price,id):
@@ -29,13 +59,13 @@ class Order:
         self.id=id
     
     def isBuy(self):
-        msg = "Sell"
+        msg = "SELL"
         if self.buy:
-            msg = "Buy"
+            msg = "BUY"
         return msg
 
     def __str__(self):
-       type = self.isBuy
+       type = self.isBuy()
        msg = type + " " + str(self.qtty) +"@"+ str(self.price) + " id=" + str(self.id)
        return msg
 
