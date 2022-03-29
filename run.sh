@@ -1,4 +1,4 @@
-
+pip3 install pandas
 pip3 install virtualenv
 virtualenv virtual1
 pip freeze > virtual1/requirements.txt
