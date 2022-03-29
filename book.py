@@ -7,7 +7,7 @@ class Order:
         self.buy=buy
         self.qtty=qtty
         self.price=price
-        self.id=id
+        self.id=id 
 
 
 
