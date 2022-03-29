@@ -23,8 +23,8 @@ class Book:
         possible = False
         for i in self.list_buy:
             if price >= i.price:
-                if temp_qtty >= i.qtty:
-                    temp_qtty - i.qtty
+                if temp_qtty > i.qtty:
+                    temp_qtty -= i.qtty
                 else:
                     possible = True
                     break
@@ -32,9 +32,9 @@ class Book:
             for i in self.list_buy:
                 if price>=i.price:
                     if temp_qtty > i.qtty:
-                        temp_qtty-i.qtty
+                        temp_qtty-=i.qtty
                         print("Execute " + str(qtty-temp_qtty) + " at " + str(i.price) + " on " + self.name)
-                        self.list_buy.pop(i)
+                        self.list_buy.pop(self.list_buy.index(i))
                     else:
                         i.qtty -= temp_qtty
                         print("Execute " + str(temp_qtty)+" at "+str(price)+" on "+self.name)
@@ -56,9 +56,6 @@ class Order:
         self.buy=buy
         self.qtty=qtty
         self.price=price
-<<<<<<< HEAD
-        self.id=id 
-=======
         self.id=id
     
     def isBuy(self):
@@ -66,7 +63,6 @@ class Order:
         if self.buy:
             msg = "BUY"
         return msg
->>>>>>> 5e121d6106af18ac2c6a54d1a81ab3ce53862c8b
 
     def __str__(self):
        type = self.isBuy()
