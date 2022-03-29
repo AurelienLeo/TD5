@@ -9,35 +9,42 @@ class Book:
         self.count_order += 1
         self.list_buy.append(Order(True,qtty,price,self.count_order))
         self.list_buy=sorted(sorted(self.list_buy, key=lambda x:x.id),key=lambda x:x.price, reverse = True)
+        print(f"--- Insert BUY {qtty}@{price} id={self.count_order} on {self.name}")
+        print(f"Book on {self.name}")
         for i in self.list_sell:
             print(i)
         for i in self.list_buy:
             print(i)
-        print("----------------------")
+        print("--------------------------")
 
    
             
     def insert_sell(self,qtty,price):
         self.count_order += 1
         temp_qtty = qtty
+        print(f"--- Insert SELL {qtty}@{price} id={self.count_order} on {self.name}")
+        print(f"Book on {self.name}")
         possible = False
         for i in self.list_buy:
-            if price >= i.price:
+            if price <= i.price:
                 if temp_qtty > i.qtty:
                     temp_qtty -= i.qtty
                 else:
                     possible = True
                     break
         if possible:
+            temp_qtty = qtty
             for i in self.list_buy:
-                if price>=i.price:
+                if price<=i.price:
+                    self.list_buy = sorted(sorted(self.list_buy, key=lambda x: x.id), key=lambda x: x.price,
+                                               reverse=True)
                     if temp_qtty > i.qtty:
                         temp_qtty-=i.qtty
-                        print("Execute " + str(qtty-temp_qtty) + " at " + str(i.price) + " on " + self.name)
+                        print("Execute " + str(i.qtty) + " at " + str(i.price) + " on " + self.name)
                         self.list_buy.pop(self.list_buy.index(i))
                     else:
                         i.qtty -= temp_qtty
-                        print("Execute " + str(temp_qtty)+" at "+str(price)+" on "+self.name)
+                        print("Execute " + str(temp_qtty)+" at "+str(i.price)+" on "+self.name)
                         break
         if not possible:
             self.list_sell.append(Order(False,qtty,price,self.count_order))
@@ -46,7 +53,7 @@ class Book:
             print(i)
         for i in self.list_buy:
             print(i)
-        print("----------------------")
+        print("--------------------------")
 
 
 
